@@ -2,7 +2,7 @@
 import { Cipher } from './simple-cipher';
 
 describe('Random key generation', () => {
-  xtest('generates keys at random', () => {
+  test('generates keys at random', () => {
     // Strictly speaking, this is difficult to test with 100% certainty.
     // But, if you have a generator that generates 100-character-long
     // strings of lowercase letters at random, the odds of two consecutively
@@ -17,32 +17,23 @@ describe('Random key cipher', () => {
   test('has a key made of letters', () => {
     expect(cipher.key).toMatch(/^[a-z]+$/);
   });
-  xtest('has a key that is at least 100 characters long', () => {
+
+  test('has a key that is at least 100 characters long', () => {
     expect(cipher.key.length).toBeGreaterThanOrEqual(100);
   });
-  test('can encode', () => {
+
+  // Here we take advantage of the fact that plaintext of "aaa..."
+  // outputs the key. This is a critical problem with shift ciphers, some
+  // characters will always output the key verbatim.
+  xtest('can encode', () => {
     expect(cipher.encode('aaaaaaaaaa')).toEqual(cipher.key.substr(0, 10));
   });
-  test('can encode', () => {
-    expect(cipher.encode('abc')).toEqual('ace');
-  });
-  test('can encode', () => {
-    expect(cipher.encode('abcba')).toEqual('aceee');
-  });
 
-  test('can decode', () => {
+  xtest('can decode', () => {
     expect(cipher.decode(cipher.key.substr(0, 10))).toEqual('aaaaaaaaaa');
   });
-  test('can decode', () => {
-    expect(cipher.decode('ace')).toEqual('abc');
-  });
-  test('can decode', () => {
-    expect(cipher.decode('abc')).toEqual('aaa');
-  });
-  test('can decode', () => {
-    expect(cipher.decode('abcdefghij')).toEqual('aaaaaaaaaa');
-  });
-  test('is reversible', () => {
+
+  xtest('is reversible', () => {
     const plaintext = 'abcdefghij';
     expect(cipher.decode(cipher.encode(plaintext))).toEqual(plaintext);
   });
@@ -93,38 +84,31 @@ describe('Incorrect key cipher', () => {
 });
 
 describe('Substitution cipher', () => {
-  const key = 'abcdefghij';
-  const cipher = new Cipher(key);
+  // const key = 'abcdefghij';
+  // const cipher = new Cipher(key);
 
-  test('keeps the submitted key', () => {
+  xtest('keeps the submitted key', () => {
     expect(cipher.key).toEqual(key);
   });
 
-  test('can encode', () => {
+  xtest('can encode', () => {
     expect(cipher.encode('aaaaaaaaaa')).toEqual('abcdefghij');
   });
-  test.only('can encode and wrap', () => {
-    expect(cipher.encode('abcdefghij')).toEqual('acegiacegi');
-  });
 
-  test('can decode', () => {
+  xtest('can decode', () => {
     expect(cipher.decode('abcdefghij')).toEqual('aaaaaaaaaa');
   });
 
-  test('can decode', () => {
-    expect(cipher.decode('acegiacegi')).toEqual('abcdefghij');
-  });
-
-  test('is reversible', () => {
+  xtest('is reversible', () => {
     expect(cipher.decode(cipher.encode('abcdefghij'))).toEqual('abcdefghij');
   });
 
-  test(': double shift encode', () => {
+  xtest(': double shift encode', () => {
     expect(new Cipher('iamapandabear').encode('iamapandabear'))
       .toEqual('qayaeaagaciai');
   });
 
-  test('can wrap on encode', () => {
+  xtest('can wrap on encode', () => {
     expect(cipher.encode('zzzzzzzzzz')).toEqual('zabcdefghi');
   });
 
