@@ -1,68 +1,49 @@
+const generateRandomKey = (length) => {
+  let result = '';
+  const characters = 'abcdefghijklmnopqrstuvwxyz';
+  for (let i = 0; i < length; i += 1) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return result;
+};
+
+const validateKey = (key) => {
+  const regex = /^[a-z]+$/;
+  if (!regex.test(key)) {
+    throw new Error('Bad key');
+  }
+};
+
+const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+
 export class Cipher {
-  constructor() {
-    this.cipherKey = Cipher.generateKey();
+  constructor(key = generateRandomKey(100)) {
+    validateKey(key);
+    this.key = key;
   }
 
-
-  encode(rawText) {
-    const alphabet = 'abcdefghijklmnopqrstuvwxyz';
-    console.log(rawText);
-    // console.log(alphabet.indexOf('a'));
-    // console.log(this.key);
-    // console.log(this.key.substr(0, 10));
-    const res = rawText.split('').map((letter, i) => {
-      const position = i + alphabet.indexOf(letter);
-      return this.key[position];
-    });
-    console.log(res.join(''));
-    return res.join('');
-  }
-
-  decode(encodedText) {
-
-    const alphabet = 'abcdefghijklmnopqrstuvwxyz';
-    // console.log(this.key);
-    console.log(encodedText);
-    // console.log('aaaaaaaaaa');
-    const res = encodedText.split('').map((letter, i) => {
-      // const pos1 = alphabet.indexOf(letter);
-      const position = alphabet.indexOf(letter) - alphabet.indexOf(this.key[i]);
-      // console.log(pos1);
-      // console.log(position);
-      console.log('***');
-      console.log(`Key: ${this.key}`);
-      console.log(`Letter: ${letter}`);
-      console.log(`Index: ${i}`);
-      console.log(alphabet.indexOf(letter));
-      console.log(alphabet.indexOf(this.key[i]));
-      console.log(alphabet.indexOf(letter) - alphabet.indexOf(this.key[i]));
-      console.log((alphabet.indexOf(letter) - alphabet.indexOf(this.key[i % this.key.length]) + alphabet.length) % alphabet.length);
-      console.log('$$$$');
-      return alphabet[position];
-    });
-    console.log(res.join(''));
-    return res.join('');
-  }
-
-
-  // function decodedChar (char, index, key) {
-  //   return charset[(alphabet.indexOf(letter) - alphabet.indexOf(this.key[i % this.key.length]) + alphabet.length) % alphabet.length]
-  // }
-
-
-
-
-  get key() {
-    return this.cipherKey;
-  }
-
-  static generateKey() {
+  encode(plaintext) {
+    const letters = plaintext.split('');
     const result = [];
-    const characters = 'abcdefghijklmnopqrstuvwxyz';
-    const charactersLength = characters.length;
 
-    for (let i = 0; i < 100; i += 1) {
-      result.push(characters.charAt(Math.floor(Math.random() * charactersLength)));
+    for (let i = 0; i < letters.length; i += 1) {
+      const letterIndex = alphabet.indexOf(letters[i]);
+      const diff = alphabet.indexOf(this.key[i % this.key.length]);
+      result.push(alphabet[(letterIndex + diff) % 26]);
+    }
+
+    return result.join('');
+  }
+
+  decode(ciphertext) {
+    const letters = ciphertext.split('');
+    const result = [];
+
+    for (let i = 0; i < letters.length; i += 1) {
+      const letterIndex = alphabet.indexOf(letters[i]);
+      const diff = alphabet.indexOf(this.key[i]);
+      const newIndex = letterIndex - diff < 0 ? (letterIndex - diff) + 26 : letterIndex - diff;
+      result.push(alphabet[newIndex]);
     }
 
     return result.join('');
