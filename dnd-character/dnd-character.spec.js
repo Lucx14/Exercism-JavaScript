@@ -80,12 +80,12 @@ describe('D&D Character', () => {
   });
 
   describe('Ability scores calculated properly', () => {
-    xtest('ability within range', () => {
+    test('ability within range', () => {
       expect(Character.rollAbility()).toBeLessThanOrEqual(18);
       expect(Character.rollAbility()).toBeGreaterThanOrEqual(3);
     });
 
-    xtest('ability scores only calculated once', () => {
+    test('ability scores only calculated once', () => {
       const Drizzt = new Character();
 
       expect(Drizzt.strength).toEqual(Drizzt.strength);
@@ -93,7 +93,7 @@ describe('D&D Character', () => {
   });
 
   describe('Random character is valid', () => {
-    xtest('character is valid', () => {
+    test('character is valid', () => {
       const Drizzt = new Character();
 
       expect(Drizzt.strength).toBeLessThanOrEqual(18);

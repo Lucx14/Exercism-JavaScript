@@ -9,35 +9,51 @@ export const abilityModifier = (constitution) => {
 };
 
 export class Character {
+  constructor() {
+    this.str = Character.rollAbility();
+    this.dxt = Character.rollAbility();
+    this.con = Character.rollAbility();
+    this.intel = Character.rollAbility();
+    this.wdm = Character.rollAbility();
+    this.crsm = Character.rollAbility();
+
+  }
   static rollAbility() {
-    throw new Error("Remove this statement and implement this function");
+    const roll = () => {
+      return Math.floor(Math.random() * 6) + 1;
+    }
+
+    const scores = [...Array(4)].map(() => roll());
+    const numbers = scores.sort((a, b) => a - b);
+    numbers.shift();
+    return numbers.reduce((a, b) => a + b, 0);
   }
 
   get strength() {
-    throw new Error("Remove this statement and implement this function");
+    return this.str;
   }
 
   get dexterity() {
-    throw new Error("Remove this statement and implement this function");
+    return this.dxt;
   }
 
   get constitution() {
-    throw new Error("Remove this statement and implement this function");
+    return this.con;
   }
 
   get intelligence() {
-    throw new Error("Remove this statement and implement this function");
+    return this.intel;
   }
 
   get wisdom() {
-    throw new Error("Remove this statement and implement this function");
+    return this.wdm;
   }
 
   get charisma() {
-    throw new Error("Remove this statement and implement this function");
+    return this.crsm;
   }
 
   get hitpoints() {
-    throw new Error("Remove this statement and implement this function");
+    return 10 + abilityModifier(this.con);
   }
 }
