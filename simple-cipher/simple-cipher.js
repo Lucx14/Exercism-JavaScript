@@ -1,11 +1,15 @@
 const ALPHABET = 'abcdefghijklmnopqrstuvwxyz';
 const alphabetIndex = letter => ALPHABET.indexOf(letter);
-const newIndex = (oldIndex, shift) => ((oldIndex + shift) + ALPHABET.length) % ALPHABET.length;
+const randomNumber = max => Math.floor(Math.random() * max);
 
 export class Cipher {
-  constructor(key = Cipher.generateRandomKey(100)) {
+  constructor(key = Cipher.generateRandomKey(Cipher.RANDOM_KEY_LENGTH)) {
     Cipher.validateKey(key);
     this.key = key;
+  }
+
+  static get RANDOM_KEY_LENGTH() {
+    return 100;
   }
 
   static validateKey(key) {
@@ -13,12 +17,13 @@ export class Cipher {
   }
 
   static generateRandomKey(length) {
-    let result = '';
-    do {
-      result += ALPHABET.charAt(Math.floor(Math.random() * ALPHABET.length));
-    }
-    while (result.length < length);
-    return result;
+    return [...Array(length)]
+      .map(() => ALPHABET[randomNumber(ALPHABET.length)])
+      .join('');
+  }
+
+  static shift(prevIndex, offset) {
+    return ((prevIndex + offset) + ALPHABET.length) % ALPHABET.length;
   }
 
   encode(plaintext) {
@@ -31,11 +36,13 @@ export class Cipher {
 
   convert(text, direction) {
     return text.split('')
-      .map((_, i) => ALPHABET[newIndex(alphabetIndex(text[i]), (this.shift(i, direction)))])
+      .map((letter, i) => ALPHABET[
+        Cipher.shift(alphabetIndex(letter), (this.offset(i, direction)))
+      ])
       .join('');
   }
 
-  shift(index, direction) {
+  offset(index, direction) {
     return ALPHABET.indexOf(this.key[index % this.key.length]) * direction;
   }
 }
