@@ -1,3 +1,10 @@
 const ALPHABET_SIZE = 26;
+const LETTER = /[a-z]/g;
 
-export const isPangram = (text) => new Set(text.toLowerCase().match(/[a-z]/g)).size === ALPHABET_SIZE;
+export const isPangram = (text) => (
+  new Set(
+    text
+      .toLowerCase()
+      .match(LETTER)
+    ).size === ALPHABET_SIZE
+);
