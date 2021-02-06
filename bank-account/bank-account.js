@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 export class BankAccount {
   constructor() {
@@ -58,6 +58,6 @@ export class BankAccount {
 
 export class ValueError extends Error {
   constructor() {
-    super('Bank account error');
+    super("Bank account error");
   }
 }
