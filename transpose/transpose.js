@@ -4,24 +4,18 @@ export const transpose = (arr) => {
   if (arr.length === 0) {
     return [];
   }
-  // throw new Error("Remove this statement and implement this function");
   const result = [];
+  const longestIndex = Math.max(...arr.map((str) => str.length));
+  const splitInput = arr.map((str) => [...str]);
 
-  const x = arr.map((x) => [...x]);
-  const longestIndex = Math.max(...x.map((x) => x.length));
-  for (let xx = 0; xx < longestIndex; xx++) {
-    result.push(x.map((ss) => ss[xx]));
+  for (let i = 0; i < longestIndex; i++) {
+    result.push(
+      splitInput
+        .map((letters) => (letters[i] === undefined ? " " : letters[i]))
+        .join("")
+    );
   }
-  const qqq = result.map((aa) => {
-    return aa.map((xxx) => {
-      if (xxx === undefined) {
-        return " ";
-      } else {
-        return xxx;
-      }
-    });
-  });
-  const hhhh = qqq.map((x) => x.join(""));
-  hhhh[hhhh.length - 1] = hhhh[hhhh.length - 1].trimEnd();
-  return hhhh;
+
+  result[result.length - 1] = result[result.length - 1].trimEnd();
+  return result;
 };
