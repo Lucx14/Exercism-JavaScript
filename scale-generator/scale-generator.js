@@ -1,18 +1,63 @@
-//
-// This is only a SKELETON file for the 'Scale Generator' exercise. It's been provided as a
-// convenience to get you started writing code faster.
-//
+"use strict";
+
+const SHARPS = [
+  "A",
+  "A#",
+  "B",
+  "C",
+  "C#",
+  "D",
+  "D#",
+  "E",
+  "F",
+  "F#",
+  "G",
+  "G#",
+];
+const FLATS = ["Ab", "A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F", "Gb", "G"];
+
+const USEFLATS = [
+  "F",
+  "g",
+  "d",
+  "Ab",
+  "Bb",
+  "Db",
+  "Eb",
+  "Gb",
+  "ab",
+  "bb",
+  "db",
+  "eb",
+  "gb",
+];
+const TONEMAP = {
+  M: 2,
+  m: 1,
+  A: 3,
+};
 
 export class Scale {
   constructor(tonic) {
-    throw new Error('Remove this statement and implement this function');
+    this.tonic = tonic;
+    this.notes = USEFLATS.includes(this.tonic) ? FLATS : SHARPS;
+    this.startNote = this.tonic[0].toUpperCase() + this.tonic.slice(1);
+    this.startIndex = this.notes.indexOf(this.startNote);
   }
 
   chromatic() {
-    throw new Error('Remove this statement and implement this function');
+    return [
+      ...this.notes.slice(this.startIndex),
+      ...this.notes.slice(0, this.startIndex),
+    ];
   }
 
   interval(intervals) {
-    throw new Error('Remove this statement and implement this function');
+    const tones = [...intervals].map((i) => TONEMAP[i]);
+    const indexes = [0];
+    for (let i = 0; i < tones.length - 1; i++) {
+      indexes.push(indexes.slice(-1)[0] + Number(tones[i]));
+    }
+    return indexes.map((i) => this.chromatic()[i]);
   }
 }
