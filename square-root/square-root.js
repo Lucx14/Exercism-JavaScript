@@ -1,8 +1,10 @@
-//
-// This is only a SKELETON file for the 'Square root' exercise. It's been provided as a
-// convenience to get you started writing code faster.
-//
+"use strict";
 
-export const squareRoot = () => {
-  throw new Error('Remove this statement and implement this function');
+export const squareRoot = (r) => {
+  let guess = 1;
+
+  for (let i = 0; i <= 10; i++) {
+    guess = (guess + r / guess) / 2;
+  }
+  return Math.floor(guess);
 };
