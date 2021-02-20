@@ -1,8 +1,29 @@
-//
-// This is only a SKELETON file for the 'Scrabble Score' exercise. It's been provided as a
-// convenience to get you started writing code faster.
-//
+"use strict";
 
-export const score = () => {
-  throw new Error('Remove this statement and implement this function');
+export const score = (word) => {
+  const scores = [
+    "",
+    "aeioulnrst",
+    "dg",
+    "bcmp",
+    "fhvwy",
+    "k",
+    "",
+    "",
+    "jx",
+    "",
+    "qz",
+  ];
+
+  return [...word.toLowerCase()]
+    .map((letter) => {
+      let points;
+      scores.forEach((group, i) => {
+        if ([...group].includes(letter)) {
+          points = i;
+        }
+      });
+      return points;
+    })
+    .reduce((acc, val) => acc + val, 0);
 };
