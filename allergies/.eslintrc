@@ -1,9 +1,16 @@
 {
   "root": true,
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
-    "ecmaVersion": 7,
-    "sourceType": "module"
+    "sourceType": "module",
+    "requireConfigFile": true,
+    "allowImportExportEverywhere": false,
+    "ecmaFeatures": {
+      "globalReturn": false
+    },
+    "babelOptions": {
+      "configFile": "/Users/luciennajev/Exercism/javascript/allergies/babel.config.js"
+    }
   },
   "globals": {
     "BigInt": true
